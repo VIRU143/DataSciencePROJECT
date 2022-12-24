@@ -1,0 +1,338 @@
+"IMPORTING DATA SET FROM EXCEL"
+
+```{r}
+
+library(dplyr)
+library(readxl)
+
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+Y <-COVID %>%filter(COUNTRY=="India",YEAR==2020,between(DAY,20,25),MONTH==11)%>%select("DATE","CASE","DEATHS")
+print(COVID)
+Y$DATE=sort(Y$DATE)
+print(Y)
+```
+
+### "PIE CHART"
+
+```{r}
+library(readxl)
+library(dplyr)
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+##dataset filter code
+X=c()
+Y=COVID %>% filter(COUNTRY=="China")
+X[1]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="India")
+X[2]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="Pakistan")
+X[3]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="Russia")
+X[4]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="UAE")
+X[5]=max(Y$ CASE)
+Y=COVID %>% filter(COUNTRY=="UK")
+X[6]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="USA")
+X[7]=max(Y$CASE)
+Y=data.frame(country=c("China","India","Pakistan","Russia","UAE","UK","USA"),MAX_CASE=X)
+print(Y)
+#AB PIE CHART 
+x=c(Y$MAX_CASE)
+y=c(Y$country)
+percent=c((x/sum(x))*100)
+percent=round(percent,2)
+pie(x,labels = percent,col = rainbow(length(x)),main="COUNTRY WISE CASE CHART",radius = 1)
+legend("topleft",y,cex=0.5,fill = rainbow(length(x)))
+```
+
+### "BAR CHART"
+
+```{r}
+library(readxl)
+library(dplyr)
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+
+##dataset filter code
+
+X=c()
+Y=COVID %>% filter(COUNTRY=="China")
+X[1]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="India")
+X[2]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="Pakistan")
+X[3]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="Russia")
+X[4]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="UAE")
+X[5]=max(Y$ CASE)
+Y=COVID %>% filter(COUNTRY=="UK")
+X[6]=max(Y$CASE)
+Y=COVID %>% filter(COUNTRY=="USA")
+X[7]=max(Y$CASE)
+Y=data.frame(country=c("China","India","Pakistan","Russia","UAE","UK","USA"),MAX_CASE=X)
+print(Y)
+
+## BAR CHART ##
+x=c(Y$MAX_CASE)
+barplot(x,col = rainbow(length(x)),names.arg = c(Y$country),space = 0.5,xlab = 'COUNTRY',ylim = c(0,250000),main="BARGRAPH")
+legend("top",y,cex=0.5,fill = rainbow(length(x)))
+```
+
+### "HISTOGRAM"
+
+```{r}
+library(readxl)
+library(dplyr)
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+
+##FILTER##
+Y <-COVID %>%filter(COUNTRY=="India",YEAR==2020,between(DAY,20,25),MONTH==11)%>%select("DATE","CASE","DEATHS")
+print(Y)
+
+##HISTOGRAM##
+x=c(Y$DEATHS)
+hist(x,,ylab="DAYS",xlab="DEATHS",col = 'grey',border='blue',ylim=c(0,6),main = 'HISTOGRAM')
+
+
+
+
+
+```
+
+### "LINE CHART"
+
+```{r}
+library(readxl)
+library(dplyr)
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+
+
+Y <-COVID %>%filter(YEAR==2020,between(DAY,20,27),MONTH==11)%>%select("DATE")
+Y=unique(Y)
+
+Z <-COVID %>%filter(YEAR==2020,DAY==20,MONTH==11)
+Y1 <-COVID %>%filter(YEAR==2020,DAY==21,MONTH==11)
+Y2 <-COVID %>%filter(YEAR==2020,DAY==22,MONTH==11)
+Y3<-COVID %>%filter(YEAR==2020,DAY==23,MONTH==11)
+Y4<-COVID %>%filter(YEAR==2020,DAY==24,MONTH==11)
+Y5<-COVID %>%filter(YEAR==2020,DAY==25,MONTH==11)
+Y6<-COVID %>%filter(YEAR==2020,DAY==26,MONTH==11)
+Y7<-COVID %>%filter(YEAR==2020,DAY==27,MONTH==11)
+
+V=c()#NULL VECTOR BANAYA
+V[1]=sum(Z$CASE)
+V[2]=sum(Y1$CASE)
+V[3]=sum(Y2$CASE)
+V[4]=sum(Y3$CASE)
+V[5]=sum(Y4$CASE)
+V[6]=sum(Y5$CASE)
+V[7]=sum(Y6$CASE)
+V[8]=sum(Y7$CASE)
+
+Y$SUM_OF_CASE=V #DATAFRAME MN NAYA COLUMN ADD KIYA
+print(Y)
+
+##line chart
+
+x=c(Y$SUM_OF_CASE)
+plot(x,type = "o",ylab='CASE',xlab='DATE',xlim=c(1,9),main = "LINE CHART")
+```
+
+### "SCATTER CHART"
+
+```{r}
+library(readxl)
+library(dplyr)
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+
+##FILTER##
+Y <-COVID %>%filter(COUNTRY=="India",YEAR==2020,between(DAY,20,25),MONTH==11)%>%select("DATE","CASE","DEATHS")
+print(Y)
+
+x=c(Y$CASE)
+y=c(Y$DEATHS)
+
+##SCATTER CHART ##
+plot(x,y,xlab="CASES",ylab="DEATHS",main = "SCATTER CHART")
+```
+
+### "BOX PLOT"
+
+```{r}
+library(readxl)
+library(dplyr)
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+View(COVID)
+Y=COVID %>% filter(between(CASE,50000,70000)) %>% select("CASE")
+dim(Y)
+boxplot(Y$CASE,col = "BLUE",xlab="CASE",main="BOXPLOT--EXAMPLE")
+
+```
+
+### 
+
+### "MEAN,MEADIAN,VARIANCE,RANGE,STANDARD-DEVIATION"
+
+```{r}
+library(dplyr)
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+
+##FILTER##
+Y <-COVID %>%filter(COUNTRY=="India",YEAR==2020,between(DAY,20,25),MONTH==11)%>%select("DATE","CASE","DEATHS")
+print(Y)
+
+##BY SUMMARY FUNCTION
+print(summary(Y))
+
+## STANDARD DEVIATION
+cat("\nSTANDARD DEVIATION OF DEATH COLUMN IS = ",sd(Y$DEATHS))
+##MEAN 
+cat("\nMEAN OF DEATH COLUMN IS = ",mean(Y$DEATHS))
+##MEDIAN
+cat("\nMEDIAN OF DEATH COLUMN IS = ",median(Y$DEATHS))
+##VARIANCE
+cat("\nVARIANCE OF DEATH COLUMN IS = ",var(Y$DEATHS))
+##RANGE
+cat("\nRANGE OF DEATH COLUMN IS = ",range(Y$DEATHS))
+```
+
+### \-\-- DATA CLEANSING\-\--
+
+```{r}
+library(dplyr)
+library(readxl)
+
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+any(is.na(COVID))
+print(sum(is.na(COVID)))
+COVID = na.omit(COVID)
+any(is.na(COVID))
+any(duplicated(COVID))
+COVID=unique(COVID)
+print(str(COVID))
+print(dim(COVID))
+vec1<-boxplot.stats(COVID$DEATHS)$out
+y<-COVID
+y<- y[-which(y$DEATHS %in% vec1),]
+boxplot(COVID$DEATHS)
+boxplot(y$DEATHS)
+print(dim(y))
+```
+
+```{r}
+#TAKING A DATASET FROM R
+library(datasets)
+data("airquality")
+print(airquality)
+#library for data clean
+library(tidyr)
+library(dplyr)
+library(janitor)
+any(is.na(airquality))
+x<-drop_na(airquality)
+x$Wind=round(x$Wind,0)
+duplicated(x)
+duplicated(x$Month)
+unique(x)
+#outliar hatanre
+vec1<-boxplot.stats(x$Ozone)$out
+y<-x
+y<- y[-which(y$Ozone %in% vec1),]
+boxplot(airquality)
+boxplot(y)
+summary(airquality)
+
+```
+
+### TRAINING & TESTING DATASET
+
+```{r}
+library(readxl)
+
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+
+x=sample(nrow(COVID))
+COVID=COVID[x,]
+split_data=as.integer(nrow(COVID)*0.8)
+Train_dataset=COVID[1:split_data,]
+Test_dataset=COVID[(split_data+1):nrow(COVID),]
+dim(Train_dataset)
+dim(Test_dataset)
+
+```
+
+```{r}
+library(readxl)
+library(dplyr)
+library(tidyr)
+COVID <- read_excel("C:/Users/work/Desktop/#VIRU_DATA_SCIENCE.xlsx")
+y=COVID
+y=y %>% select(CASE,DEATHS)
+View(y)
+# y$CASE[which(y$CASE==0)]=mean(y$CASE)
+# y$DEATHS[which(y$DEATHS==0)]=mean(y$DEATHS)
+y$CASE[which(y$CASE==0)]=NA
+#y$DEATHS[which(y$DEATHS==0)]=NA
+
+y=na.omit(y)
+x=sample(nrow(y))
+y=y[x,]
+split_data=as.integer(nrow(y)*0.8)
+Train_dataset=y[1:split_data,]
+Test_dataset=y[(split_data+1):nrow(y),]
+
+model=lm(DEATHS~CASE,data=Train_dataset)
+
+pred = predict(model,data.frame(CASE=c(56000,75265)))
+print(as.integer(pred))
+
+summary(model)
+
+plot(y$DEATHS,y$CASE)
+abline(lm(y$CASE~y$DEATHS),data=y)
+plot(COVID$DEATHS,COVID$CASE,xlim=c(-500,500))
+abline(lm(COVID$CASE~COVID$DEATHS),data=COVID)
+
+
+#  set.seed(12321)
+#  x=sample(nrow(COVID))
+#  COVID=COVID[x,]
+#  split_data=as.integer(nrow(COVID)*0.8)
+#  Train_dataset=COVID[1:split_data,]
+#  Test_dataset=COVID[(split_data+1):nrow(COVID),]
+# 
+#  model=lm(CASE~DEATHS,data=Train_dataset)
+# 
+#  pred = predict(model,Test_dataset)
+#  pred
+# View(Train_dataset)
+# View(Test_dataset)
+
+# # X=c(as.integer(COVID$CASE))
+# # y=c()
+# # j=1
+# # for(i in X)
+# # {
+# #   if(i<50000)
+# #   {
+# #     y[j]=0
+# #     j=j+1
+# #   }else{
+# #     y[j]=1
+# #     j=j+1
+# #   }
+# #   
+# # }
+# # COVID$Zone=y
+# # View(COVID)
+# 
+# # x=c(COVID$DEATHS)
+# # y=c(COVID$CASE)
+# # X=lm(x~y)
+# # a=data.frame(y=)
+# # result=predict(X,a)
+# # rmse=sqrt(mean(result-COVID$DEATHS)^2)
+# # print(rmse)
+# # summary(X)
+# # print(result)
+```
